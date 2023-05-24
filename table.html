@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <style>
+            table,td,tr{
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <input type="text" id="table1det"><br>
+        <input type="text" id="table2det"><br>
+        <button id="generate">generate</button>
+
+        <table id="tablediv1" >
+
+        </table>
+        <table id="tablediv2">
+            
+        </table>
+        <table id="tablediv3">
+            
+        </table>
+    </body>
+<script>
+    
+    function generateTable(table1,tablediv,mat){
+            var row=table1[0],col=table1[1],st=table1[2];
+            let rowData=``;
+            let value=st;
+            for(let i=0;i<row;++i){
+                
+                rowData+=`<tr>`
+                for(let j=0;j<col;++j){
+                    rowData+=`<td> ${mat[i][j]} </td>`;
+                    ++value;
+                }
+                rowData+=`</tr>`
+            }
+            document.getElementById(tablediv).innerHTML=rowData;
+    }
+    document.getElementById('generate').onclick=function(){
+            var table1=document.getElementById('table1det').value;
+            var table2=document.getElementById('table2det').value;
+            var table1=table1.split('#');
+            var table2=table2.split('#');
+            console.log(table1);
+            
+            var mat1=new Array(table1[0]),mat2=new Array(table2[0]);
+            let start1=table1[2],start2=table2[2];
+            for(let i=0;i<table1[0];++i){
+                var mat1c=new Array(table1[1]);
+                for(let j=0;j<table1[1];++j){
+                    mat1c[j]=start1;
+                    ++start1;
+                }
+                mat1[i]=mat1c;
+            }
+            for(let i=0;i<table2[0];++i){
+                var mat2c=new Array(table2[1]);
+                for(let j=0;j<table2[1];++j){
+                    mat2c[j]=start2;
+                    ++start2;
+                }
+                mat2[i]=mat2c;
+            }
+            generateTable(table1,"tablediv1",mat1);
+            generateTable(table2,"tablediv2",mat2);
+            if(table1[0]==table2[0] && table1[1]==table2[1]){
+                var mat3=new Array(table1[0]);
+                    for(let i=0;i<table1[0];++i){
+                    var mat3c=new Array(table1[1]);
+                    for(let j=0;j<table1[1];++j){
+                        mat3c[j]=mat1[i][j]*mat2[i][j];
+                        
+                    }
+                    mat3[i]=mat3c;
+                }
+                if(start1==start2){
+                    generateTable(table1,"tablediv3",mat1);
+                }else{
+                    generateTable(table1,"tablediv3",mat3);
+                }
+            }
+        };
+    
+    
+</script>
+</html>
